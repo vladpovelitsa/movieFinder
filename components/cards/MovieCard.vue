@@ -1,10 +1,16 @@
 <script setup>
 defineProps(["movieInfo"]);
+const imagePlaceholder =
+  "https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png";
 </script>
 
 <template>
   <nuxt-link :to="movieInfo.Title" class="movie-card">
-    <img :src="movieInfo.Poster" alt="" class="mb-2 w-full" />
+    <img
+      :src="movieInfo.Poster !== 'N/A' ? movieInfo.Poster : imagePlaceholder"
+      alt=""
+      class="mb-2 w-full"
+    />
     <div
       class="movie-card__info flex w-full items-center justify-between gap-2"
     >

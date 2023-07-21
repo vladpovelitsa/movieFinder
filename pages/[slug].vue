@@ -3,6 +3,8 @@ import { useRoute } from "vue-router";
 import { onMounted } from "vue";
 let route = useRoute();
 const config = useRuntimeConfig();
+const imagePlaceholder =
+  "https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png";
 
 let { data: movie } = await useFetch(
   `http://www.omdbapi.com/?apikey=${config.public.omdbApiKey}&t=${route.params.slug}&plot=full`
@@ -10,8 +12,12 @@ let { data: movie } = await useFetch(
 </script>
 
 <template>
-  <div class="flex w-full flex-col gap-10 px-4 md:flex-row">
-    <img :src="movie.Poster" alt="" />
+  <div class="flex w-full flex-col gap-10 px-4 align-top md:flex-row">
+    <img
+      :src="movie.Poster !== 'N/A' ? movie.Poster : imagePlaceholder"
+      alt=""
+      class="w-full self-start md:w-96"
+    />
     <div class="w-full">
       <h1 class="mb-8 w-full border-b-2 pb-8 text-6xl font-bold">
         {{ route.params.slug }}
