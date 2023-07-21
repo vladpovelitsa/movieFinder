@@ -10,7 +10,7 @@ let { data: movie } = await useFetch(
 </script>
 
 <template>
-  <div class="flex w-full gap-10">
+  <div class="flex w-full flex-col gap-10 px-4 md:flex-row">
     <img :src="movie.Poster" alt="" />
     <div class="w-full">
       <h1 class="mb-8 w-full border-b-2 pb-8 text-6xl font-bold">
@@ -31,8 +31,10 @@ let { data: movie } = await useFetch(
     </div>
   </div>
 
-  <h2 class="mb-4 mt-8 border-t-2 border-gray-400 pt-8 text-4xl">About:</h2>
-  <p>
+  <h2 class="mb-4 mt-8 border-t-2 border-gray-400 px-4 pt-8 text-4xl">
+    About:
+  </h2>
+  <p class="px-4">
     {{ movie.Plot }}
   </p>
 </template>

@@ -7,6 +7,17 @@ const config = useRuntimeConfig();
 const store = useMoviesStore();
 const route = useRoute();
 const query = ref(route.hash?.slice(1) || "");
+const swiperBreakpoints = {
+  768: {
+    slidesPerView: 1,
+  },
+  992: {
+    slidesPerView: 2,
+  },
+  1200: {
+    slidesPerView: 3,
+  },
+};
 definePageMeta({
   layout: "default",
 });
@@ -36,7 +47,7 @@ onBeforeMount(() => {
 
   <Swiper
     :modules="[SwiperAutoplay, SwiperEffectCreative]"
-    :slides-per-view="3"
+    :breakpoints="swiperBreakpoints"
     :loop="false"
     @reachEnd="fetchNewPage()"
     :key="query.value"
