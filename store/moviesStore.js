@@ -13,7 +13,7 @@ export const useMoviesStore = defineStore('movies', {
             this.error = Error 
         },
         addMoviesNewPage(data) {
-            this.movies= [...this.movies, ...data]
+            if(data) this.movies= [...this.movies, ...data]
         }
     },
     

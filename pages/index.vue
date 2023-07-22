@@ -1,12 +1,13 @@
 <script setup>
 import { useRoute } from "vue-router";
-import { ref, onBeforeMount } from "vue";
+import { ref, onUnmounted } from "vue";
 import { useMoviesStore } from "@/store/moviesStore";
 import MovieCard from "@/components/cards/MovieCard";
 const config = useRuntimeConfig();
 const store = useMoviesStore();
-const route = useRoute();
-const query = ref(route.hash?.slice(1) || "");
+const route = await useRoute();
+console.log(route.hash.slice(1));
+const query = ref(route.hash.slice(1) || "");
 const swiperBreakpoints = {
   768: {
     slidesPerView: 1,
@@ -22,20 +23,22 @@ definePageMeta({
   layout: "default",
 });
 
-let fetchNewPage = async () => {
-  if (store.movies?.length) {
-    let res = await fetch(
-      `http://www.omdbapi.com/?apikey=${config.public.omdbApiKey}&s=${
-        query.value
-      }&page=${store.movies.length / 10 + 1}`
-    );
+onBeforeMount(() => {
+  fetchNewPage();
+});
 
-    let data = await res.json();
-    store.addMoviesNewPage(data.Search);
-  }
+const fetchNewPage = async () => {
+  let res = await fetch(
+    `http://www.omdbapi.com/?apikey=${config.public.omdbApiKey}&s=${
+      query.value
+    }&page=${store.movies.length / 10 + 1}`
+  );
+
+  let data = await res.json();
+  store.addMoviesNewPage(data.Search);
 };
 
-onBeforeMount(() => {
+onUnmounted(() => {
   store.setMovies([]);
 });
 </script>
