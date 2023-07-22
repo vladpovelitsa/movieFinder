@@ -9,6 +9,17 @@ const imagePlaceholder =
 let { data: movie } = await useFetch(
   `http://www.omdbapi.com/?apikey=${config.public.omdbApiKey}&t=${route.params.slug}&plot=full`
 );
+
+useSeoMeta({
+  title: route.params.slug,
+  ogTitle: route.params.slug,
+  description:
+    "This is amazing page, let me tell you all about " + route.params.slug,
+  ogDescription:
+    "This is amazing page, let me tell you all about " + route.params.slug,
+  ogImage: movie.Poster,
+  twitterCard: "summary_large_image",
+});
 </script>
 
 <template>

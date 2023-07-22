@@ -19,7 +19,18 @@ const onSubmit = () => {
     router.push({ path: "/" });
   }
 };
+
+useSeoMeta({
+  title: "Add movie to Movie finder",
+  ogTitle: "Add movie to Movie finder",
+  description: "Here you add your favorite movie, if there is not in our site",
+  ogDescription:
+    "Here you add your favorite movie, if there is not in our site",
+  ogImage: "",
+  twitterCard: "summary_large_image",
+});
 </script>
+
 <template>
   <h1 class="mb-4 text-6xl">Can't find movie?</h1>
   <p class="text-2xl">

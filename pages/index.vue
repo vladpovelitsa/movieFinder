@@ -41,6 +41,17 @@ const fetchNewPage = async () => {
 onUnmounted(() => {
   store.setMovies([]);
 });
+
+useSeoMeta({
+  title: "Movie finder",
+  ogTitle: "Movie finder",
+  description:
+    "Here you can find your favorite movies, and get know more about them",
+  ogDescription:
+    "Here you can find your favorite movies, and get know more about them",
+  ogImage: "",
+  twitterCard: "summary_large_image",
+});
 </script>
 
 <template>
