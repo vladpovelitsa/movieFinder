@@ -1,7 +1,7 @@
 <script setup>
 import { useRoute } from "vue-router";
 import { onMounted } from "vue";
-let route = useRoute();
+let route = await useRoute();
 const config = useRuntimeConfig();
 const imagePlaceholder =
   "https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png";
