@@ -1,6 +1,5 @@
 <script setup>
 import { ref, reactive, onMounted } from "vue";
-import WebSocket, { WebSocketServer } from "ws";
 let msg = ref("");
 let logs = reactive([]);
 let userName = ref(localStorage.getItem("userName") || "");
