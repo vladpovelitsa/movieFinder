@@ -56,6 +56,7 @@ useSeoMeta({
 </script>
 
 <template>
+<!--  layouts is not perfect, but I try to implement websockets chat, i have not enough time to finish layouts, so I focused on logic -->
 <!--  <ClientOnly fallback-tag="span" fallback="Loading chat...">-->
 <!--    <TheChat />-->
 <!--  </ClientOnly>-->
