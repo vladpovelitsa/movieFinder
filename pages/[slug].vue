@@ -7,7 +7,7 @@ const imagePlaceholder =
   "https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png";
 
 let { data: movie } = await useFetch(
-  `http://www.omdbapi.com/?apikey=${config.public.omdbApiKey}&t=${route.params.slug}&plot=full`
+  `https//www.omdbapi.com/?apikey=${config.public.omdbApiKey}&t=${route.params.slug}&plot=full`
 );
 
 useSeoMeta({

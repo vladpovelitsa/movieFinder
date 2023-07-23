@@ -29,7 +29,7 @@ onBeforeMount(() => {
 
 const fetchNewPage = async () => {
   let res = await fetch(
-    `http://www.omdbapi.com/?apikey=${config.public.omdbApiKey}&s=${
+    `https://www.omdbapi.com/?apikey=${config.public.omdbApiKey}&s=${
       query.value
     }&page=${store.movies.length / 10 + 1}`
   );

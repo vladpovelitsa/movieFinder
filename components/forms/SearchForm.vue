@@ -15,7 +15,7 @@ let query = ref(route.hash.slice(1) || "");
 let searchMovie = useDebounceFn(async () => {
   if (query.value) {
     let res = await fetch(
-      `http://www.omdbapi.com/?apikey=${config.public.omdbApiKey}&s=${query.value}&plot=full`
+      `https://www.omdbapi.com/?apikey=${config.public.omdbApiKey}&s=${query.value}&plot=full`
     );
 
     let data = await res.json();
