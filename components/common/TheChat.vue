@@ -4,7 +4,7 @@ let msg = ref("");
 let logs = reactive([]);
 let userName = ref(localStorage.getItem("userName") || "");
 let wsUri =
-  "ws://s9550.fra1.piesocket.com/v3/1?api_key=K1T1w9QmDdE0gbJvAdmuAMwcyhJvD6mLVKIIUSBv&notify_self=1";
+  "wss://s9550.fra1.piesocket.com/v3/1?api_key=K1T1w9QmDdE0gbJvAdmuAMwcyhJvD6mLVKIIUSBv&notify_self=1";
 
 const websocket = new WebSocket(wsUri);
 
