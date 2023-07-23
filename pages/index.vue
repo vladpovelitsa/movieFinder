@@ -56,9 +56,9 @@ useSeoMeta({
 </script>
 
 <template>
-  <ClientOnly fallback-tag="span" fallback="Loading chat...">
-    <TheChat />
-  </ClientOnly>
+<!--  <ClientOnly fallback-tag="span" fallback="Loading chat...">-->
+<!--    <TheChat />-->
+<!--  </ClientOnly>-->
   <h1 class="mb-8 text-3xl font-bold" v-if="query.value">
     Search result for: <span class="underline">{{ query.value }}</span>
   </h1>
