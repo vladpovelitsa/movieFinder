@@ -3,6 +3,7 @@ import { useRoute } from "vue-router";
 import { ref, onUnmounted } from "vue";
 import { useMoviesStore } from "@/store/moviesStore";
 import MovieCard from "@/components/cards/MovieCard";
+import TheChat from "@/components/common/TheChat.vue";
 const config = useRuntimeConfig();
 const store = useMoviesStore();
 const route = await useRoute();
@@ -55,10 +56,12 @@ useSeoMeta({
 </script>
 
 <template>
+  <ClientOnly fallback-tag="span" fallback="Loading chat...">
+    <TheChat />
+  </ClientOnly>
   <h1 class="mb-8 text-3xl font-bold" v-if="query.value">
     Search result for: <span class="underline">{{ query.value }}</span>
   </h1>
-
   <Swiper
     :modules="[SwiperAutoplay, SwiperEffectCreative]"
     :breakpoints="swiperBreakpoints"
