@@ -2,7 +2,8 @@
 import { ref, reactive, onMounted } from "vue";
 let msg = ref("");
 let logs = reactive([]);
-let userName = ref(localStorage.getItem("userName") || "");
+let userName = ref("");
+let isLogined = ref(false);
 let wsUri =
   "wss://s9550.fra1.piesocket.com/v3/1?api_key=K1T1w9QmDdE0gbJvAdmuAMwcyhJvD6mLVKIIUSBv&notify_self=1";
 
@@ -23,7 +24,6 @@ websocket.onerror = function (evt) {
 
 function onOpen(evt) {
   writeLog("CONNECTED");
-  sendMessage("Hello world");
 }
 
 function onClose(evt) {
@@ -31,28 +31,39 @@ function onClose(evt) {
 }
 
 function onMessage(evt) {
-  writeLog('<span style="color: blue;">RESPONSE: ' + evt.data + "</span>");
-  websocket.close();
+  writeLog("<span>" + evt.data + "</span>");
 }
 
 function onError(evt) {
   writeLog('<span style="color: red;">ERROR:</span> ' + evt.data);
 }
 
-function sendMessage(message) {
-  writeLog("SENT: " + message);
-  websocket.send(message);
+function sendMessage() {
+  websocket.send(`${userName.value}: ${msg.value}`);
+  msg.value = "";
 }
 
 function writeLog(message) {
   logs.push(message);
 }
+
+const setUserName = () => {
+  localStorage.setItem("userName", userName.value);
+  isLogined.value = true;
+};
+
+onMounted(() => {
+  if (localStorage.getItem("userName")) {
+    userName.value = localStorage.getItem("userName");
+    isLogined.value = true;
+  }
+});
 </script>
 <template>
-  <div class="chat">
+  <div class="chat px-4 md:px-0">
     <p v-for="(msg, index) in logs" :key="index" v-html="msg"></p>
   </div>
-  <el-form class="w-96">
+  <el-form class="w-96 px-4 md:px-0" v-if="isLogined">
     <el-form-item label="Your message">
       <el-input
         style="
@@ -65,7 +76,23 @@ function writeLog(message) {
       />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="sendMessage(msg)">Send</el-button>
+      <el-button type="primary" @click="sendMessage()">Send</el-button>
+    </el-form-item>
+  </el-form>
+  <el-form class="w-96 px-4 md:px-0" v-else>
+    <el-form-item label="Join chat">
+      <el-input
+        style="
+          --el-input-bg-color: transparent;
+          --el-input-border-color: gray;
+          --el-input-text-color: white;
+        "
+        v-model="userName"
+        placeholder="Enter your username"
+      />
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="setUserName()">Join</el-button>
     </el-form-item>
   </el-form>
 </template>
