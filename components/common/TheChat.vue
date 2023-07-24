@@ -1,5 +1,6 @@
 <script setup>
 import { ref, reactive, onMounted } from "vue";
+
 let msg = ref("");
 let logs = reactive([]);
 let userName = ref("");
@@ -23,7 +24,7 @@ websocket.onerror = function (evt) {
 };
 
 function onOpen(evt) {
-  writeLog("CONNECTED");
+  writeLog("<p class='pb-2 mb-2 border-b-2'>Welcome to movie finder chat</p>");
 }
 
 function onClose(evt) {
@@ -60,10 +61,14 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div class="chat px-4 md:px-0">
+  <div class="chat mb-4 h-80 w-full overflow-auto border-b-2 px-4 md:px-0">
     <p v-for="(msg, index) in logs" :key="index" v-html="msg"></p>
   </div>
-  <el-form class="w-96 px-4 md:px-0" v-if="isLogined">
+  <el-form
+    @submit.prevent="sendMessage()"
+    class="w-full px-4 md:px-0"
+    v-if="isLogined"
+  >
     <el-form-item label="Your message">
       <el-input
         style="
@@ -76,10 +81,10 @@ onMounted(() => {
       />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="sendMessage()">Send</el-button>
+      <el-button @click="sendMessage()" type="primary">Send</el-button>
     </el-form-item>
   </el-form>
-  <el-form class="w-96 px-4 md:px-0" v-else>
+  <el-form @submit.prevent="setUserName()" class="w-full px-4 md:px-0" v-else>
     <el-form-item label="Join chat">
       <el-input
         style="
@@ -92,7 +97,7 @@ onMounted(() => {
       />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="setUserName()">Join</el-button>
+      <el-button @submit="setUserName()" type="primary">Join</el-button>
     </el-form-item>
   </el-form>
 </template>
