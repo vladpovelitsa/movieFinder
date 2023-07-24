@@ -1,13 +1,12 @@
 <script setup>
 import { useRoute } from "vue-router";
-import { onMounted } from "vue";
 let route = await useRoute();
 const config = useRuntimeConfig();
 const imagePlaceholder =
   "https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png";
 
 let { data: movie } = await useFetch(
-  `https//www.omdbapi.com/?apikey=${config.public.omdbApiKey}&t=${route.params.slug}&plot=full`
+  `https://www.omdbapi.com/?apikey=${config.public.omdbApiKey}&t=${route.params.slug}&plot=full`
 );
 
 useSeoMeta({

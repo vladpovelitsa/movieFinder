@@ -1,14 +1,14 @@
 <script setup>
-import { useRoute } from "vue-router";
-import { ref, onUnmounted } from "vue";
-import { useMoviesStore } from "@/store/moviesStore";
+import { onUnmounted } from "vue";
 import MovieCard from "@/components/cards/MovieCard";
 import TheChat from "@/components/common/TheChat.vue";
-const config = useRuntimeConfig();
-const store = useMoviesStore();
-const route = await useRoute();
-console.log(route.hash.slice(1));
-const query = ref(route.hash.slice(1) || "");
+import { useMoviesStore } from "@/store/moviesStore";
+import { fetchMovies, resetMovies } from "@/composables/fetchMoviesBySearch";
+import getQuery from "@/composables/getQuery";
+import { useRoute } from "vue-router";
+
+const store = reactive(useMoviesStore());
+let query = reactive(getQuery());
 const swiperBreakpoints = {
   768: {
     slidesPerView: 1,
@@ -20,27 +20,17 @@ const swiperBreakpoints = {
     slidesPerView: 3,
   },
 };
+
 definePageMeta({
   layout: "default",
 });
 
 onBeforeMount(() => {
-  fetchNewPage();
+  fetchMovies(query);
 });
 
-const fetchNewPage = async () => {
-  let res = await fetch(
-    `https://www.omdbapi.com/?apikey=${config.public.omdbApiKey}&s=${
-      query.value
-    }&page=${store.movies.length / 10 + 1}`
-  );
-
-  let data = await res.json();
-  store.addMoviesNewPage(data.Search);
-};
-
 onUnmounted(() => {
-  store.setMovies([]);
+  resetMovies();
 });
 
 useSeoMeta({
@@ -56,32 +46,37 @@ useSeoMeta({
 </script>
 
 <template>
-<!--  layouts is not perfect, but I try to implement websockets chat, i have not enough time to finish layouts, so I focused on logic -->
-<!--  <ClientOnly fallback-tag="span" fallback="Loading chat...">-->
-<!--    <TheChat />-->
-<!--  </ClientOnly>-->
-  <h1 class="mb-8 text-3xl font-bold" v-if="query.value">
-    Search result for: <span class="underline">{{ query.value }}</span>
-  </h1>
-  <Swiper
-    :modules="[SwiperAutoplay, SwiperEffectCreative]"
-    :breakpoints="swiperBreakpoints"
-    :loop="false"
-    @reachEnd="fetchNewPage()"
-    :key="query.value"
-    v-if="store.movies?.length"
-  >
-    <SwiperSlide
-      v-for="movie in store.movies"
-      :key="movie.imdbID"
-      class="w-96 px-4"
-    >
-      <MovieCard :movie-info="movie" />
-    </SwiperSlide>
-  </Swiper>
-  <div class="v-else">
-    <h2 class="mb-8 text-3xl font-bold">
-      {{ store.error }}
-    </h2>
+  <div class="flex flex-col md:flex-row md:gap-8">
+    <main class="md:w-2/3">
+      <h1 class="mb-8 text-3xl font-bold" v-if="getQuery()">
+        Search result for: <span class="underline">{{ getQuery() }}</span>
+      </h1>
+      <Swiper
+        :modules="[SwiperAutoplay, SwiperEffectCreative]"
+        :breakpoints="swiperBreakpoints"
+        :loop="false"
+        @reachEnd="fetchMovies(store.query)"
+        :key="store.query"
+        v-if="store.movies?.length"
+      >
+        <SwiperSlide
+          v-for="movie in store.movies"
+          :key="movie.imdbID"
+          class="w-96 px-4"
+        >
+          <MovieCard :movie-info="movie" />
+        </SwiperSlide>
+      </Swiper>
+      <div class="v-else">
+        <h2 class="mb-8 text-3xl font-bold">
+          {{ store.error }}
+        </h2>
+      </div>
+    </main>
+    <aside class="md:w-1/3">
+      <ClientOnly>
+        <TheChat />
+      </ClientOnly>
+    </aside>
   </div>
 </template>

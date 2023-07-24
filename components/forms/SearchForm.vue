@@ -1,33 +1,23 @@
 <script setup>
 import { Search } from "@element-plus/icons-vue";
-import { onMounted, ref, watch } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { useDebounceFn } from "@vueuse/core";
-import { useMoviesStore } from "@/store/moviesStore";
-const config = useRuntimeConfig();
-const route = useRoute();
+import getQuery from "@/composables/getQuery";
+import { fetchMovies, resetMovies } from "@/composables/fetchMoviesBySearch";
 const router = useRouter();
-const store = useMoviesStore();
 // Search //
 
-let query = ref(route.hash.slice(1) || "");
+let query = ref(getQuery() || "");
 
 let searchMovie = useDebounceFn(async () => {
   if (query.value) {
-    let res = await fetch(
-      `https://www.omdbapi.com/?apikey=${config.public.omdbApiKey}&s=${query.value}&plot=full`
-    );
-
-    let data = await res.json();
-    data.Search?.length
-      ? (store.setMovies(data.Search), store.setError(null))
-      : (store.setError(data.Error), store.setMovies([]));
-
+    resetMovies();
+    fetchMovies(query.value);
     router.push({ name: "index", hash: "#" + query.value });
     query.value = "";
   }
 }, 1000);
-onMounted(() => searchMovie());
 
 // end Search //
 </script>
