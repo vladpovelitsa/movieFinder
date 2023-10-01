@@ -7,6 +7,7 @@ import TheFooter from "@/components/common/TheFooter";
   <div class="wrapper grid min-h-screen grid-cols-1 bg-gray-800 text-white">
     <TheHeader />
     <div class="container mx-auto my-8">
+      test
       <NuxtPage />
     </div>
     <TheFooter />
