@@ -49,7 +49,7 @@ useSeoMeta({
   <div class="flex flex-col md:flex-row md:gap-8">
     <main class="md:w-2/3">
       <h1 class="mb-8 text-3xl font-bold" v-if="getQuery()">
-        Search result for: <span class="underline">{{ getQuery() }}</span>
+        Search result for request: <span class="underline">{{ getQuery() }}</span>
       </h1>
       <Swiper
         :modules="[SwiperAutoplay, SwiperEffectCreative]"
